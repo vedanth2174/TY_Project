@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document Upload Test</title>
+</head>
+<body>
+    <h1>Upload Document to Blockchain</h1>
+    <form id="uploadForm">
+        <label>Choose File:</label>
+        <input type="file" id="fileInput" required><br><br>
+
+        <label>Wallet Address:</label>
+        <input type="text" id="walletInput" placeholder="0xYourWalletAddress" required><br><br>
+
+        <button type="submit">Upload</button>
+    </form>
+
+    <div id="result" style="margin-top:20px;"></div>
+
+    <script>
+        const form = document.getElementById('uploadForm');
+        const resultDiv = document.getElementById('result');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const file = document.getElementById('fileInput').files[0];
+            const wallet = document.getElementById('walletInput').value;
+
+            if (!file || !wallet) {
+                alert("Please select a file and enter wallet address");
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('wallet', wallet);
+
+            resultDiv.innerHTML = "Uploading... please wait";
+
+            try {
+                const res = await fetch('http://localhost:5000/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await res.json();
+                if (data.success) {
+                    resultDiv.innerHTML = `
+                        <p>Upload successful!</p>
+                        <p><strong>Document Hash:</strong> ${data.docHash}</p>
+                        <p><strong>CID:</strong> ${data.cid}</p>
+                        <p><strong>Transaction Hash:</strong> ${data.txHash}</p>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `<p style="color:red">Error: ${data.error}</p>`;
+                }
+            } catch (err) {
+                resultDiv.innerHTML = `<p style="color:red">Error: ${err.message}</p>`;
+            }
+        });
+    </script>
+</body>
+</html>
