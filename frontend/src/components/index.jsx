@@ -84,7 +84,7 @@ export default function DocumentPlatform() {
           Issue Document
         </button>
         <h3>Issue Result:</h3>
-        <pre style={{ background: "#f4f4f4", padding: "10px", borderRadius: "5px" }}>{issueResult}</pre>
+        <pre style={{ background: "#f4f4f4", color: "#000", padding: "10px", borderRadius: "5px" }}>{issueResult}</pre>
       </div>
 
       <div>
@@ -101,7 +101,7 @@ export default function DocumentPlatform() {
           Validate Document
         </button>
         <h3>Validation Result:</h3>
-        <pre style={{ background: "#f4f4f4", padding: "10px", borderRadius: "5px" }}>{validateResult}</pre>
+        <pre style={{ background: "#f4f4f4", color: "#000", padding: "10px", borderRadius: "5px" }}>{validateResult}</pre>
       </div>
     </div>
   );
